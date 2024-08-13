@@ -2,6 +2,10 @@ const express = require('express');
 const cron = require('node-cron');
 const bodyParser = require('body-parser');
 const { Sequelize, Model, DataTypes } = require('sequelize');
+const swaggerUi = require('swagger-ui-express');
+const yamljs = require('yamljs');
+const path = require('path');
+const httpStatus = require('http-status-codes');
 
 const app = express();
 const port = 3000;
@@ -48,11 +52,17 @@ Measurement.init({
 }, { sequelize, modelName: 'measurement' });
 
 // Sync models with database
-sequelize.sync();
+sequelize.sync({force: true});
 
 // Middleware for parsing request body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Load OpenAPI definition
+const openApiDocument = yamljs.load(path.join(__dirname, 'openapi.yaml'));
+
+// Serve Swagger docs
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
 // CRUD routes for Tank model
 app.get('/tanks', async (req, res) => {

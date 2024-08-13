@@ -1,0 +1,269 @@
+openapi: 3.0.0
+info:
+  title: Tankman API
+  version: 1.0.0
+  description: API for managing tanks and measurements
+servers:
+  - url: http://localhost:3000
+paths:
+  /tanks:
+    get:
+      summary: Get all tanks
+      responses:
+        '200':
+          description: A list of tanks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tank'
+    post:
+      summary: Create a new tank
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tank'
+      responses:
+        '200':
+          description: The created tank
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tank'
+  /tanks/{id}:
+    get:
+      summary: Get a tank by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The requested tank
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tank'
+    put:
+      summary: Update a tank by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tank'
+      responses:
+        '200':
+          description: The updated tank
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tank'
+        '404':
+          description: Tank not found
+    delete:
+      summary: Delete a tank by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tank deleted
+        '404':
+          description: Tank not found
+  /measurements:
+    get:
+      summary: Get all measurements
+      responses:
+        '200':
+          description: A list of measurements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Measurement'
+    post:
+      summary: Create a new measurement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Measurement'
+      responses:
+        '200':
+          description: The created measurement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Measurement'
+  /measurements/{id}:
+    get:
+      summary: Get a measurement by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The requested measurement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Measurement'
+    put:
+      summary: Update a measurement by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Measurement'
+      responses:
+        '200':
+          description: The updated measurement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Measurement'
+        '404':
+          description: Measurement not found
+    delete:
+      summary: Delete a measurement by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Measurement deleted
+        '404':
+          description: Measurement not found
+  /latestmeasurementbytankid/{id}:
+    get:
+      summary: Get the latest measurement by tank ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The latest measurement for the specified tank
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Measurement'
+  /allmeasurementsbytankid/{id}:
+    get:
+      summary: Get all measurements by tank ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: All measurements for the specified tank
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Measurement'
+  /livemeasurement:
+    get:
+      summary: Get a live measurement
+      responses:
+        '200':
+          description: A live measurement
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  level:
+                    type: number
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Health check status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uptime:
+                    type: number
+                  message:
+                    type: string
+                  date:
+                    type: string
+                    format: date-time
+components:
+  schemas:
+    Tank:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        location:
+          type: string
+        diameter:
+          type: number
+        height:
+          type: number
+        statedCapacity:
+          type: number
+        capacityUnit:
+          type: string
+        dateAdded:
+          type: string
+          format: date-time
+    Measurement:
+      type: object
+      properties:
+        id:
+          type: integer
+        tankId:
+          type: integer
+        level:
+          type: number
+        availableCapacity:
+          type: number
+        availablePercentage:
+          type: number
+        dateAdded:
+          type: string
+          format: date-time
