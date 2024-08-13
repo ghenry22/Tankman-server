@@ -4,7 +4,10 @@
   "description": "Water Tank Level Monitor",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "local": "nodemon src/server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "author": "Gaven Henry",
   "license": "MIT",
