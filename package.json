@@ -2,10 +2,11 @@
   "name": "tankman-server",
   "version": "1.0.0",
   "description": "Water Tank Level Monitor",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node src/server.js",
-    "start:dev": "nodemon src/server.js",
+    "start": "node src/index.js",
+    "start:dev": "nodemon src/index.js",
+    "start:prod": "pm2 src/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
