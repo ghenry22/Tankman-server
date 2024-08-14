@@ -1,29 +1,34 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const compression = require('compression')
+const cors = require('cors');
 
+// Swagger
 const swaggerUi = require('swagger-ui-express');
-
-const scheduler = require('./config/scheduler');
-
 const swaggerDocument = require('./config/swagger');
 
+// Scheduler
+const scheduler = require('./config/scheduler');
+
+// Routes
 const tankRouter = require('./routes/tank.route');
 const measurementRouter = require('./routes/measurement.route');
 const dataRouter = require('./routes/data.route');
 const healthRouter = require('./routes/health.route');
 
 const app = express();
-const port = 3001;
-
-console.log(swaggerDocument);
+const port = 3000;
 
 // Middleware for parsing request body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Other middleware
+// Enable compression
 app.use(compression());
+
+// Enable CORS
+app.use(cors());
+app.options('*', cors());
 
 // Routes
 app.use("/tanks", tankRouter);
