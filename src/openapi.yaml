@@ -4,7 +4,8 @@ info:
   version: 1.0.0
   description: API for managing tanks and measurements
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:3001
+    description: Local server
 paths:
   /tanks:
     get:
@@ -17,7 +18,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Tank'
+                  $ref: '#/components/schemas/TankResponse'
     post:
       summary: Create a new tank
       requestBody:
@@ -25,14 +26,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Tank'
+              $ref: '#/components/schemas/TankRequest'
       responses:
         '200':
           description: The created tank
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tank'
+                $ref: '#/components/schemas/TankResponse'
   /tanks/{id}:
     get:
       summary: Get a tank by ID
@@ -44,11 +45,11 @@ paths:
             type: integer
       responses:
         '200':
-          description: The requested tank
+          description: The tank with the specified ID
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tank'
+                $ref: '#/components/schemas/TankResponse'
     put:
       summary: Update a tank by ID
       parameters:
@@ -62,16 +63,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Tank'
+              $ref: '#/components/schemas/TankRequest'
       responses:
         '200':
           description: The updated tank
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tank'
-        '404':
-          description: Tank not found
+                $ref: '#/components/schemas/TankResponse'
     delete:
       summary: Delete a tank by ID
       parameters:
@@ -83,8 +82,13 @@ paths:
       responses:
         '200':
           description: Tank deleted
-        '404':
-          description: Tank not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
   /measurements:
     get:
       summary: Get all measurements
@@ -96,7 +100,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Measurement'
+                  $ref: '#/components/schemas/MeasurementResponse'
     post:
       summary: Create a new measurement
       requestBody:
@@ -104,14 +108,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Measurement'
+              $ref: '#/components/schemas/MeasurementRequest'
       responses:
         '200':
           description: The created measurement
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Measurement'
+                $ref: '#/components/schemas/MeasurementResponse'
   /measurements/{id}:
     get:
       summary: Get a measurement by ID
@@ -123,11 +127,11 @@ paths:
             type: integer
       responses:
         '200':
-          description: The requested measurement
+          description: The measurement with the specified ID
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Measurement'
+                $ref: '#/components/schemas/MeasurementResponse'
     put:
       summary: Update a measurement by ID
       parameters:
@@ -141,16 +145,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Measurement'
+              $ref: '#/components/schemas/MeasurementRequest'
       responses:
         '200':
           description: The updated measurement
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Measurement'
-        '404':
-          description: Measurement not found
+                $ref: '#/components/schemas/MeasurementResponse'
     delete:
       summary: Delete a measurement by ID
       parameters:
@@ -162,9 +164,14 @@ paths:
       responses:
         '200':
           description: Measurement deleted
-        '404':
-          description: Measurement not found
-  /latestmeasurementbytankid/{id}:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /data/latestmeasurementbytankid/{id}:
     get:
       summary: Get the latest measurement by tank ID
       parameters:
@@ -179,8 +186,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Measurement'
-  /allmeasurementsbytankid/{id}:
+                $ref: '#/components/schemas/MeasurementResponse'
+  /data/allmeasurementsbytankid/{id}:
     get:
       summary: Get all measurements by tank ID
       parameters:
@@ -197,21 +204,24 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Measurement'
-  /livemeasurement:
+                  $ref: '#/components/schemas/MeasurementResponse'
+  /data/livemeasurementbytankid/{id}:
     get:
-      summary: Get a live measurement
+      summary: Get a live measurement by tank ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
-          description: A live measurement
+          description: A live measurement for the specified tank
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  level:
-                    type: number
-  /health:
+                $ref: '#/components/schemas/LiveMeasurementResponse'
+  /health/status:
     get:
       summary: Health check
       responses:
@@ -220,18 +230,20 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  uptime:
-                    type: number
-                  message:
-                    type: string
-                  date:
-                    type: string
-                    format: date-time
+                $ref: '#/components/schemas/HealthStatusResponse'
 components:
   schemas:
-    Tank:
+    HealthStatusResponse:
+      type: object
+      properties:
+        uptime:
+          type: number
+        message:
+          type: string
+        date:
+          type: string
+          format: date-time
+    TankResponse:
       type: object
       properties:
         id:
@@ -248,10 +260,10 @@ components:
           type: number
         capacityUnit:
           type: string
-        dateAdded:
+        timeStamp:
           type: string
           format: date-time
-    Measurement:
+    MeasurementResponse:
       type: object
       properties:
         id:
@@ -264,6 +276,48 @@ components:
           type: number
         availablePercentage:
           type: number
-        dateAdded:
+        timeStamp:
+          type: string
+          format: date-time
+    LiveMeasurementResponse:
+      type: object
+      properties:
+        level:
+          type: number
+        status:
+          type: string
+        timeStamp:
+          type: string
+          format: date-time
+    TankRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        location:
+          type: string
+        diameter:
+          type: number
+        height:
+          type: number
+        statedCapacity:
+          type: number
+        capacityUnit:
+          type: string
+        timeStamp:
+          type: string
+          format: date-time
+    MeasurementRequest:
+      type: object
+      properties:
+        tankId:
+          type: integer
+        level:
+          type: number
+        availableCapacity:
+          type: number
+        availablePercentage:
+          type: number
+        timeStamp:
           type: string
           format: date-time

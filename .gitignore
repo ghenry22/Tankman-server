@@ -129,3 +129,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 db/tankman-db.sqlite
+.DS_Store
+tankman-server.session.sql
