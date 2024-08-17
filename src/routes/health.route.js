@@ -8,8 +8,9 @@ router.get('/status', async (req, res) => {
     res.status(httpStatus.OK).send(status);
 });
 
-router.get('sensorstatus/:id', async (req, res) => {
-
+router.get('/sensorstatus', async (req, res) => {
+    const status = await healthController.sensorStatus();
+    res.status(httpStatus.OK).send(status);
 });
 
 module.exports = router;

@@ -231,6 +231,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthStatusResponse'
+  /health/sensorstatus:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Health check sensor status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthSensorStatusResponse'
 components:
   schemas:
     HealthStatusResponse:
@@ -240,6 +250,18 @@ components:
           type: number
         message:
           type: string
+        date:
+          type: string
+          format: date-time
+    HealthSensorStatusResponse:
+      type: object
+      properties:
+        initStatus:
+          type: string
+          description: "'ok' or an error message"
+        pinTestStatus:
+          type: string
+          enum: ['ok', 'error']
         date:
           type: string
           format: date-time

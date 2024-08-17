@@ -1,3 +1,6 @@
+const RpioService = require('../services/rpio.service');
+const rpioService = new RpioService();
+
 exports.serverStatus = async () => {
     const status = {
         uptime: process.uptime(),
@@ -5,4 +8,14 @@ exports.serverStatus = async () => {
         date: new Date(),
       };
       return status;
+};
+
+exports.sensorStatus = async () => {
+  const status = {
+      initStatus: await rpioService.init(),
+      pinTestStatus: rpioService.pinTest(),
+      date: new Date(),
+  };
+  
+  return status;
 };
