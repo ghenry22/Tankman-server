@@ -14,6 +14,13 @@
 #   exit 1
 # fi
 
+# Install g++  (GNU C++ Compiler)
+apt-get install -y g++
+if [ $? -ne 0 ]; then
+  echo "Failed to install g++ (GNU C++ Compiler)"
+  exit 1
+fi
+
 # Install nodemon globally
 npm install -g nodemon
 if [ $? -ne 0 ]; then
