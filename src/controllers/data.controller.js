@@ -1,5 +1,7 @@
 const Tank = require('../models/tank.model');
 const Measurement = require('../models/measurement.model');
+const RpioService = require('../services/rpio.service');
+const rpioService = new RpioService();
 
 exports.latestMeasurementByTankId = async (tankId) => {
     const measurement = await Measurement.findOne({
@@ -21,5 +23,7 @@ exports.allmeasurementsByTankId = async (tankId) => {
 }
 
 exports.liveMeasurementByTankId = async (tankId) => {
-    return { level: Math.random() * 100, status: 'not implemented', timestamp: new Date() };
+    const distance = await rpioService.readSensor();
+    //TODO change distance to a level measurement
+    return { level: distance, status: 'ok', timestamp: new Date() };
 }

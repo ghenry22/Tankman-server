@@ -13,7 +13,7 @@ exports.serverStatus = async () => {
 exports.sensorStatus = async () => {
   const status = {
       initStatus: await rpioService.init(),
-      pinTestStatus: rpioService.pinTest(),
+      pinTestStatus: await rpioService.pinTest(),
       date: new Date(),
   };
   
