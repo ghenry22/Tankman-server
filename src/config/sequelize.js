@@ -4,7 +4,8 @@ const sequelize = new Sequelize(
   {
     dialect: 'sqlite',
     storage: 'db/tankman-db.sqlite',
-    logging: console.info
+    //logging: console.info
+    logging: false
   },
 );
 
