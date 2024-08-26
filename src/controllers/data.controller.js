@@ -23,7 +23,12 @@ exports.allmeasurementsByTankId = async (tankId) => {
 }
 
 exports.liveMeasurementByTankId = async (tankId) => {
-    const distance = await arduinoService.readSensor();
+    const sensorRes = await arduinoService.readSensor();
+
+    // Sort the measurements from low to high
+    // take the middle measurement as the most accurate
+    sensorRes.measurements.sort();
+
     //TODO change distance to a level measurement
-    return { level: distance, status: 'ok', timestamp: new Date() };
+    return { level: sensorRes.measurements[4], status: 'ok', timestamp: new Date() };
 }
