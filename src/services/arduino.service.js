@@ -35,13 +35,13 @@ module.exports = class ArduinoService {
             try {
                 await this.open();
 
-                parser.once('data', (data) => {
-                    console.log('Data:', data.toString());
-                    resolve(data);
+                parser.on('data', (data) => {
+                    console.log('Data:', JSON.parse(data));
+                    resolve(JSON.parse(data));
                 });
 
                 serialPort.write('trigger\n');
-                
+
             } catch (error) {
                 reject(error);
             }
