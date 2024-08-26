@@ -1,5 +1,12 @@
-const SerialPort = require('serialport');
-const serialPort = new SerialPort('/dev/ttyACM0', { baudRate: 9600 });
+const { SerialPort } = require('serialport');
+const { ReadlineParser } = require('@serialport/parser-readline');
+
+const serialPort = new SerialPort({
+    path: '/dev/ttyACM0',
+    baudRate: 9600
+});
+
+const parser = serialPort.pipe(new ReadlineParser({ delimiter: '\n' }));
 
 module.exports = class ArduinoService {
 
@@ -28,7 +35,7 @@ module.exports = class ArduinoService {
             try {
                 await this.open();
 
-                serialPort.once('data', (data) => {
+                parser.once('data', (data) => {
                     console.log('Data:', data.toString());
                     resolve(data);
                 });
