@@ -23,7 +23,7 @@ exports.allmeasurementsByTankId = async (tankId) => {
 }
 
 exports.liveMeasurementByTankId = async (tankId) => {
-    const distance = await arduinoiService.readSensor();
+    const distance = await arduinoService.readSensor();
     //TODO change distance to a level measurement
     return { level: distance, status: 'ok', timestamp: new Date() };
 }
