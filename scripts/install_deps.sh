@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Update package list
-# apt-get update
-# if [ $? -ne 0 ]; then
-#   echo "Failed to update package list"
-#   exit 1
-# fi
+sudo apt-get update
+if [ $? -ne 0 ]; then
+  echo "Failed to update package list"
+  exit 1
+fi
 
 # Install Node.js and npm
 # apt-get install -y nodejs npm
@@ -14,22 +14,25 @@
 #   exit 1
 # fi
 
+# Permissions for GPIO
+sudo usermod -a -G gpio ghenry
+
 # Install g++  (GNU C++ Compiler)
-apt-get install -y g++
+sudo apt-get install -y g++
 if [ $? -ne 0 ]; then
   echo "Failed to install g++ (GNU C++ Compiler)"
   exit 1
 fi
 
 # Install nodemon globally
-npm install -g nodemon
+sudo npm install -g nodemon
 if [ $? -ne 0 ]; then
   echo "Failed to install nodemon"
   exit 1
 fi
 
 # Install pm2 globally
-npm install -g pm2
+sudo npm install -g pm2
 if [ $? -ne 0 ]; then
   echo "Failed to install pm2"
   exit 1
