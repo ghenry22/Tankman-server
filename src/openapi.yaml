@@ -220,7 +220,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MeasurementResponse'
+                $ref: '#/components/schemas/LiveMeasurementResponse'
   /health/status:
     get:
       summary: Health check
@@ -274,6 +274,20 @@ components:
       properties:
         id:
           type: integer
+        tankId:
+          type: integer
+        distanceFromSensor:
+          type: number
+        availableCapacity:
+          type: number
+        availablePercentage:
+          type: number
+        timeStamp:
+          type: string
+          format: date-time
+    LiveMeasurementResponse:
+      type: object
+      properties:
         tankId:
           type: integer
         distanceFromSensor:

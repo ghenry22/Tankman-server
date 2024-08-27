@@ -1,7 +1,10 @@
 const Tank = require('../models/tank.model');
 const Measurement = require('../models/measurement.model');
 const ArduinoService = require('../services/arduino.service');
+const MeasurementService = require('../services/measurement.service');
+
 const arduinoService = new ArduinoService();
+const measurementService = new MeasurementService();
 
 exports.latestMeasurementByTankId = async (tankId) => {
     const measurement = await Measurement.findOne({
@@ -23,8 +26,19 @@ exports.allmeasurementsByTankId = async (tankId) => {
 }
 
 exports.liveMeasurementByTankId = async (tankId) => {
-    const sensorRes = await arduinoService.readSensor();
 
-    //TODO change distance to a level measurement
-    return { level: sensorRes, status: sensorRes.status, timestamp: new Date() };
+    const tank = await Tank.findByPk(tankId);
+    const sensorData = await arduinoService.readSensor(tankId);
+    const capacityRes = await measurementService.calculateCapacity(tank.diameter, tank.height, tank.sensorDistanceWhenFull, tank.isRound, tank.statedCapacity, sensorData);
+
+    const measurement = new Measurement
+    ({
+        tankId: tankId,
+        distanceFomrSensor: sensorData,
+        availableCapacity: capacityRes.availableCapacity,
+        availablePercentage: capacityRes.availablePercentage,
+        timeStamp: new Date()
+    });
+
+    return measurement;
 }
