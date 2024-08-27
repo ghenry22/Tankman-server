@@ -8,14 +8,14 @@ const arduinoService = new ArduinoService();
 const measurementService = new MeasurementService();
 
 // Start Schedule jobs to take readings
-// TODO, configurable schedule, real sensor readings
+// TODO, configurable schedule
 cron.schedule('*/10 * * * * *', async () => {
     try {
         console.log('running scheduled task to fetch levels every 10 seconds');
         const tanks = await tankController.findAll();
         tanks.forEach(async tank => {
 
-            const sensorData = await arduinoService.readSensor(tank.id);
+            const sensorData = await arduinoService.readSensor(tank.sensorId);
             const capacityRes = await measurementService.calculateCapacity(tank.diameter, tank.height, tank.sensorDistanceWhenFull, tank.isRound, tank.statedCapacity, sensorData);
 
             const measurement = {

@@ -30,7 +30,7 @@ module.exports = class ArduinoService {
         });
     }
 
-    readSensor(tankID) {
+    readSensor(sensorID) {
         return new Promise(async (resolve, reject) => {
             try {
                 await this.open();
@@ -47,10 +47,10 @@ module.exports = class ArduinoService {
                 });
 
                 if (tankID === 1) {
-                    serialPort.write('trigger1\n');
+                    serialPort.write('1\n');
                 }
                 if (tankID === 2) {
-                    serialPort.write('trigger2\n');
+                    serialPort.write('2\n');
                 }
 
             } catch (error) {
