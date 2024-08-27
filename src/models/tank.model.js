@@ -14,6 +14,8 @@ Tank.init({
     location: DataTypes.STRING,
     diameter: DataTypes.NUMBER,
     height: DataTypes.NUMBER,
+    sensorDistanceWhenFull: DataTypes.NUMBER,
+    sensorId: DataTypes.NUMBER,
     statedCapacity: DataTypes.NUMBER,
     capacityUnit: DataTypes.STRING,
     timeStamp: DataTypes.DATE

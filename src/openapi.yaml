@@ -220,7 +220,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LiveMeasurementResponse'
+                $ref: '#/components/schemas/MeasurementResponse'
   /health/status:
     get:
       summary: Health check
@@ -231,16 +231,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthStatusResponse'
-  /health/sensorstatus:
-    get:
-      summary: Health check
-      responses:
-        '200':
-          description: Health check sensor status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HealthSensorStatusResponse'
 components:
   schemas:
     HealthStatusResponse:
@@ -250,18 +240,6 @@ components:
           type: number
         message:
           type: string
-        date:
-          type: string
-          format: date-time
-    HealthSensorStatusResponse:
-      type: object
-      properties:
-        initStatus:
-          type: string
-          description: "'ok' or an error message"
-        pinTestStatus:
-          type: string
-          enum: ['ok', 'error']
         date:
           type: string
           format: date-time
@@ -278,6 +256,10 @@ components:
           type: number
         height:
           type: number
+        sensorDistanceWhenFull:
+          type: number
+        sensorId:
+          type: number
         statedCapacity:
           type: number
         capacityUnit:
@@ -292,22 +274,12 @@ components:
           type: integer
         tankId:
           type: integer
-        level:
+        distanceFromSensor:
           type: number
         availableCapacity:
           type: number
         availablePercentage:
           type: number
-        timeStamp:
-          type: string
-          format: date-time
-    LiveMeasurementResponse:
-      type: object
-      properties:
-        level:
-          type: number
-        status:
-          type: string
         timeStamp:
           type: string
           format: date-time
@@ -322,6 +294,10 @@ components:
           type: number
         height:
           type: number
+        sensorDistanceWhenFull:
+          type: number
+        sensorId:
+          type: number
         statedCapacity:
           type: number
         capacityUnit:
@@ -334,7 +310,7 @@ components:
       properties:
         tankId:
           type: integer
-        level:
+        distanceFromSensor:
           type: number
         availableCapacity:
           type: number

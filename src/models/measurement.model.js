@@ -11,7 +11,7 @@ Measurement.init({
         autoIncrement: true,
     },
     tankId: DataTypes.NUMBER,
-    level: DataTypes.NUMBER,
+    distanceFromSensor: DataTypes.NUMBER,
     availableCapacity: DataTypes.NUMBER,
     availablePercentage: DataTypes.NUMBER,
     timeStamp: DataTypes.DATE

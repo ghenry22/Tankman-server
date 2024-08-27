@@ -7,13 +7,3 @@ exports.serverStatus = async () => {
       };
       return status;
 };
-
-exports.sensorStatus = async () => {
-  const status = {
-      initStatus: "ok",
-      pinTestStatus: "ok",
-      date: new Date(),
-  };
-  
-  return status;
-};
