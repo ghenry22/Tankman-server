@@ -30,17 +30,28 @@ module.exports = class ArduinoService {
         });
     }
 
-    readSensor() {
+    readSensor(tankID) {
         return new Promise(async (resolve, reject) => {
             try {
                 await this.open();
 
                 parser.on('data', (data) => {
-                    console.log('Data:', JSON.parse(data));
-                    resolve(JSON.parse(data));
+                    // parse the JSON data
+                    const sensorData = JSON.parse(data);
+                    // sort the measurements
+                    sensorData.measurements.sort();
+                    // average the middle measurements, remove outliers and round to nearest integer
+                    const avg = Math.round((sensorData.measurements[3] + sensorData.measurements[4] + sensorData.measurements[5]) / 3);
+                    // return the average
+                    resolve(avg);
                 });
 
-                serialPort.write('trigger\n');
+                if (tankID === 1) {
+                    serialPort.write('trigger1\n');
+                }
+                if (tankID === 2) {
+                    serialPort.write('trigger2\n');
+                }
 
             } catch (error) {
                 reject(error);

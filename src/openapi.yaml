@@ -264,6 +264,8 @@ components:
           type: number
         capacityUnit:
           type: string
+        isRound:
+          type: boolean
         timeStamp:
           type: string
           format: date-time
@@ -302,6 +304,8 @@ components:
           type: number
         capacityUnit:
           type: string
+        isRound:
+          type: boolean
         timeStamp:
           type: string
           format: date-time

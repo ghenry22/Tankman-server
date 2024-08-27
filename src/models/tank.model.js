@@ -18,6 +18,7 @@ Tank.init({
     sensorId: DataTypes.NUMBER,
     statedCapacity: DataTypes.NUMBER,
     capacityUnit: DataTypes.STRING,
+    isRound: DataTypes.BOOLEAN,
     timeStamp: DataTypes.DATE
 }, { 
     sequelize, 

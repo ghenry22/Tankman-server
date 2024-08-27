@@ -1,6 +1,11 @@
 const cron = require('node-cron');
 const tankController = require('../controllers/tank.controller');
 const measurementController = require('../controllers/measurement.controller');
+const ArduinoService = require('../services/arduino.service');
+const MeasurementService = require('../services/measurement.service');
+
+const arduinoService = new ArduinoService();
+const measurementService = new MeasurementService();
 
 // Start Schedule jobs to take readings
 // TODO, configurable schedule, real sensor readings
@@ -9,11 +14,15 @@ cron.schedule('*/10 * * * * *', async () => {
         console.log('running scheduled task to fetch levels every 10 seconds');
         const tanks = await tankController.findAll();
         tanks.forEach(async tank => {
+
+            const sensorData = await arduinoService.readSensor(tank.id);
+            const capacityRes = await measurementService.calculateCapacity(tank.diameter, tank.height, tank.sensorDistanceWhenFull, tank.isRound, tank.statedCapacity, sensorData);
+
             const measurement = {
                 tankId: tank.id,
-                level: Math.random() * 100,
-                availableCapacity: Math.random() * 100,
-                availablePercentage: Math.random() * 100,
+                distanceFromSensor: sensorData,
+                availableCapacity: capacityRes.availableCapacity,
+                availablePercentage: capacityRes.availablePercentage,
                 timeStamp: new Date()
             };
             await measurementController.create(measurement);
