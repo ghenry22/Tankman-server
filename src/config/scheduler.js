@@ -14,7 +14,7 @@ cron.schedule('*/10 * * * * *', async () => {
         console.log('running scheduled task to fetch levels every 10 seconds');
         const tanks = await tankController.findAll();
         tanks.forEach(async tank => {
-
+            
             const sensorData = await arduinoService.readSensor(tank.sensorId);
             const capacityRes = await measurementService.calculateCapacity(tank.diameter, tank.height, tank.sensorDistanceWhenFull, tank.isRound, tank.statedCapacity, sensorData);
 
