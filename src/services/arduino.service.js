@@ -35,7 +35,9 @@ module.exports = class ArduinoService {
             try {
                 await this.open();
 
-                parser.on('data', (data) => {
+                const listener = parser.on('data', (data) => {
+                    // clear the listener
+                    parser.removeListener('data', listener);
                     // parse the JSON data
                     const sensorData = JSON.parse(data);
                     // sort the measurements
