@@ -35,7 +35,7 @@ module.exports = class ArduinoService {
             try {
                 await this.open();
 
-                const listener = parser.on('data', (data) => {
+                const listener = (data) => {
                     // clear the listener
                     parser.removeListener('data', listener);
                     // parse the JSON data
@@ -46,7 +46,9 @@ module.exports = class ArduinoService {
                     const avg = Math.round((sensorData.measurements[3] + sensorData.measurements[4] + sensorData.measurements[5]) / 3);
                     // return the average
                     resolve(avg);
-                });
+                };
+
+                parser.on('data', listener);
 
                 if (sensorID === 1) {
                     serialPort.write('1\n');
