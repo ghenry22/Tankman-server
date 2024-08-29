@@ -31,14 +31,12 @@ exports.liveMeasurementByTankId = async (tankId) => {
     const sensorData = await arduinoService.readSensor(tank.sensorId);
     const capacityRes = await measurementService.calculateCapacity(tank.diameter, tank.height, tank.sensorDistanceWhenFull, tank.isRound, tank.statedCapacity, sensorData);
 
-    const measurement = new Measurement
-    ({
-        tankId: tankId,
-        distanceFomrSensor: sensorData,
+    const measurement =
+        {tankId: tankId,
+        distanceFromSensor: sensorData,
         availableCapacity: capacityRes.availableCapacity,
         availablePercentage: capacityRes.availablePercentage,
-        timeStamp: new Date()
-    });
+        timeStamp: new Date()};
 
     return measurement;
 }
