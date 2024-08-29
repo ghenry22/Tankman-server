@@ -1,4 +1,6 @@
 const Tank = require('../models/tank.model');
+const MeasurementService = require('../services/measurement.service');
+const measurementService = new MeasurementService();
 
 exports.findAll = async () => {
     try {
@@ -23,6 +25,11 @@ exports.findById = async (id) => {
 
 exports.create = async (data) => {
     try {
+        if ((data.statedCapacity === 0 || data.statedCapacity === undefined) && data.isRound) {
+            data.statedCapacity = await measurementService.calculateMaxCapacity(data.diameter, data.height);
+        } else {
+            throw new Error('Stated capacity must be provided for non-round tanks');
+        }
         const tank = await Tank.create(data);
         return tank;
     } catch (error) {
