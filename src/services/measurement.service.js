@@ -4,8 +4,9 @@ module.exports = class MeasurementService {
         return new Promise((resolve, reject) => {
             try {
                 const radius = diameter / 2;
-                const maxCapacity = Math.PI * Math.pow(radius, 2) * height;
-                resolve(maxCapacity);
+                const maxCapacityCm3 = Math.PI * Math.pow(radius, 2) * height;
+                const maxCapacityLiters = Math.round(maxCapacityCm3 / 1000); // Convert to liters
+                resolve(maxCapacityLiters);
             } catch (error) {
                 reject(error);
             }
@@ -17,17 +18,19 @@ module.exports = class MeasurementService {
             try {
                 const waterLevel = sensorData - sensorDistanceWhenFull;
                 const availablePercentage = (waterLevel / height) * 100;
-                let availableCapacity;
+                let availableCapacityCm3;
+                let availableCapacityLiters;
 
                 if (isRound) {
                     const radius = diameter / 2;
-                    availableCapacity = Math.PI * Math.pow(radius, 2) * waterLevel;
+                    availableCapacityCm3 = Math.PI * Math.pow(radius, 2) * waterLevel;
+                    availableCapacityLiters = Math.round(availableCapacityCm3 / 1000);
                 } else {
-                    availableCapacity = statedCapacity * availablePercentage / 100;
+                    availableCapacityLitres = Math.round(statedCapacity * availablePercentage / 100);
                 }
 
                 resolve({
-                    availableCapacity: availableCapacity,
+                    availableCapacity: availableCapacityLiters,
                     availablePercentage: availablePercentage
                 });
             } catch (error) {
