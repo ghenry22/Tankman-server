@@ -46,10 +46,10 @@ module.exports = class ArduinoService {
                     resolve(avg);
                 });
 
-                if (tankID === 1) {
+                if (sensorID === 1) {
                     serialPort.write('1\n');
                 }
-                if (tankID === 2) {
+                if (sensorID === 2) {
                     serialPort.write('2\n');
                 }
 
