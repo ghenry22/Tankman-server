@@ -9,7 +9,7 @@ const measurementService = new MeasurementService();
 exports.latestMeasurementByTankId = async (tankId) => {
     const measurement = await Measurement.findOne({
         where: {
-            tankId: req.params.id
+            tankId: tankId
         },
         order: [['timeStamp', 'DESC']]
     });
@@ -19,7 +19,7 @@ exports.latestMeasurementByTankId = async (tankId) => {
 exports.allmeasurementsByTankId = async (tankId) => {
     const measurements = await Measurement.findAll({
         where: {
-            tankId: req.params.id
+            tankId: tankId
         }
     });
     return measurements;
