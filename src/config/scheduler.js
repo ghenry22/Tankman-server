@@ -24,8 +24,10 @@ class Scheduler {
 setupScheduler = async () => {
     const isEnabled = await settingController.getSchedulerEnabled();
     const interval = await settingController.getSchedulerInterval();
+    console.log('Scheduler enabled:', isEnabled);
+    console.log('Scheduler interval:', interval);
 
-    if (!isEnabled) {
+    if (isEnabled === 'false') {
         console.log('Scheduler is disabled');
         return;
     }

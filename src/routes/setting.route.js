@@ -4,7 +4,7 @@ const settingController = require('../controllers/setting.controller');
 
 router.get('/', async (req, res) => {
     const settings = await settingController.findAll();
-    res.json(tanks);
+    res.json(settings);
 });
 
 router.get('/:name', async (req, res) => {
