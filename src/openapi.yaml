@@ -231,6 +231,156 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthStatusResponse'
+  /settings:
+    get:
+      summary: Get all settings
+      responses:
+        '200':
+          description: A list of settings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SettingResponse'
+    post:
+      summary: Create a new setting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettingRequest'
+      responses:
+        '200':
+          description: The created setting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingResponse'
+  /settings/{name}:
+    get:
+      summary: Get a setting by name
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The setting with the specified name
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingResponse'
+    put:
+      summary: Update a setting by name
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettingRequest'
+      responses:
+        '200':
+          description: The updated setting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingResponse'
+    delete:
+      summary: Delete a setting by name
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Setting deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /settings/schedulerEnabled:
+    get:
+      summary: Get scheduler enabled status
+      responses:
+        '200':
+          description: Scheduler enabled status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+    put:
+      summary: Set scheduler enabled status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+      responses:
+        '200':
+          description: Scheduler enabled status updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /settings/schedulerInterval:
+    get:
+      summary: Get scheduler interval
+      responses:
+        '200':
+          description: Scheduler interval
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interval:
+                    type: integer
+    put:
+      summary: Set scheduler interval
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                interval:
+                  type: integer
+      responses:
+        '200':
+          description: Scheduler interval updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
 components:
   schemas:
     HealthStatusResponse:
@@ -269,6 +419,12 @@ components:
         timeStamp:
           type: string
           format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     MeasurementResponse:
       type: object
       properties:
@@ -283,6 +439,12 @@ components:
         availablePercentage:
           type: number
         timeStamp:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
           type: string
           format: date-time
     LiveMeasurementResponse:
@@ -337,3 +499,25 @@ components:
         timeStamp:
           type: string
           format: date-time
+    SettingResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        value:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    SettingRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string

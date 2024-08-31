@@ -8,7 +8,9 @@
     "start:dev": "nodemon src/index.js",
     "start:prod": "pm2 start src/index.js --name tankman-server",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "migration:run": "sequelize db:migrate",
+    "migration:create": "node ./scripts/create_migration.js"
   },
   "author": "Gaven Henry",
   "license": "MIT",
@@ -25,5 +27,8 @@
     "sqlite3": "^5.1.7",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
   }
 }

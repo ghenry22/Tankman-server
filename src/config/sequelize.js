@@ -18,7 +18,7 @@ sequelize.authenticate()
     console.error('Unable to connect to the database:', error);
   });
 
-// Sync models with database
-sequelize.sync();
+// Sync models with database when not using migrations
+// sequelize.sync();
 
 module.exports = sequelize;

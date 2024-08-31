@@ -1,0 +1,14 @@
+{
+    "development": {
+      "database": "tankman_server_dev",
+      "host": "127.0.0.1",
+      "dialect": "sqlite",
+      "storage": "./db/tankman_server_db_dev.sqlite"
+    },
+    "production": {
+      "database": "tankman_server_prod",
+      "host": "127.0.0.1",
+      "dialect": "sqlite",
+      "storage": "./db/tankman_server_db_prod.sqlite"
+    }
+  }
