@@ -9,13 +9,19 @@ const util = require('../utils/util');
 const arduinoService = new ArduinoService();
 const measurementService = new MeasurementService();
 
-let scheduledTask; // Reference to the scheduled task
+//let scheduledTask; // Reference to the scheduled task
 
 // Start Schedule jobs to take readings
 // Scheduler needs to be enabled in settings
 // Scheduler interval needs to be set in settings to a valid value in mins
 
-exports.setupScheduler = async () => {
+class Scheduler {
+
+    constructor() {
+        this.scheduledTask = null;
+    }
+
+setupScheduler = async () => {
     const isEnabled = await settingController.getSchedulerEnabled();
     const interval = await settingController.getSchedulerInterval();
 
@@ -55,7 +61,7 @@ exports.setupScheduler = async () => {
     });
 }
 
-exports.cancelScheduler = () => {
+cancelScheduler = () => {
     if (scheduledTask) {
         scheduledTask.stop();
         console.log('Scheduler has been cancelled');
@@ -63,3 +69,7 @@ exports.cancelScheduler = () => {
         console.log('No scheduler to cancel');
     }
 }
+
+}
+
+module.exports = new Scheduler();
