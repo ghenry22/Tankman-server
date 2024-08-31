@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:name', async (req, res) => {
-    const setting = await settingController.getSetting(req.params.name);
+    const setting = await settingController.findOne(req.params.name);
     if (setting) {
         await setting.update(req.body);
         res.json(setting);
