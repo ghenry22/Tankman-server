@@ -20,6 +20,9 @@ const settingRouter = require('./routes/setting.route');
 const app = express();
 const port = 3000;
 
+// Start Schedule jobs to take readings
+scheduler.setupScheduler();
+
 // Middleware for parsing request body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
