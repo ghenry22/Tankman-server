@@ -15,7 +15,7 @@ const tankRouter = require('./routes/tank.route');
 const measurementRouter = require('./routes/measurement.route');
 const dataRouter = require('./routes/data.route');
 const healthRouter = require('./routes/health.route');
-const settingsRouter = require('./routes/settings.route');
+const settingRouter = require('./routes/setting.route');
 
 const app = express();
 const port = 3000;
@@ -36,7 +36,7 @@ app.use("/tanks", tankRouter);
 app.use("/measurements", measurementRouter);
 app.use("/data", dataRouter);
 app.use("/health", healthRouter);
-app.use("/settings", settingsRouter);
+app.use("/settings", settingRouter);
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
