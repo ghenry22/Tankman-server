@@ -15,7 +15,7 @@ let scheduledTask; // Reference to the scheduled task
 // Scheduler needs to be enabled in settings
 // Scheduler interval needs to be set in settings to a valid value in mins
 
-const setupScheduler = async () => {
+exports.setupScheduler = async () => {
     const isEnabled = await settingController.getSchedulerEnabled();
     const interval = await settingController.getSchedulerInterval();
 
@@ -55,7 +55,7 @@ const setupScheduler = async () => {
     });
 }
 
-const cancelScheduler = () => {
+exports.cancelScheduler = () => {
     if (scheduledTask) {
         scheduledTask.stop();
         console.log('Scheduler has been cancelled');
@@ -63,10 +63,3 @@ const cancelScheduler = () => {
         console.log('No scheduler to cancel');
     }
 }
-
-setupScheduler();
-
-module.exports = {
-    setupScheduler,
-    cancelScheduler
-};
