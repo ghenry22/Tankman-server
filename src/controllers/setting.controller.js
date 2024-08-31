@@ -1,4 +1,5 @@
 const Setting = require('../models/setting.model');
+const Scheduler = require('../config/scheduler');
 
 exports.findAll = async () => {
     const settings = await Setting.findAll();
@@ -49,9 +50,13 @@ exports.getSchedulerInterval = async () => {
 
 exports.setSchedulerEnabled = async (enabled) => {
     await this.updateSetting('schedulerEnabled', enabled.toString());
+    await Scheduler.cancelScheduler();
+    await Scheduler.setupScheduler();
 }
 
 exports.setSchedulerInterval = async (intervalMins) => {
     await this.updateSetting('schedulerInterval', intervalMins.toString());
+    await Scheduler.cancelScheduler();
+    await Scheduler.setupScheduler();
 }
 

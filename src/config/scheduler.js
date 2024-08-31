@@ -9,6 +9,8 @@ const util = require('../utils/util');
 const arduinoService = new ArduinoService();
 const measurementService = new MeasurementService();
 
+let scheduledTask; // Reference to the scheduled task
+
 // Start Schedule jobs to take readings
 // Scheduler needs to be enabled in settings
 // Scheduler interval needs to be set in settings to a valid value in mins
@@ -16,7 +18,6 @@ const measurementService = new MeasurementService();
 const setupScheduler = async () => {
     const isEnabled = await settingController.getSchedulerEnabled();
     const interval = await settingController.getSchedulerInterval();
-    const schedule = util.minutesToCronSchedule(interval);
 
     if (!isEnabled) {
         console.log('Scheduler is disabled');
@@ -28,7 +29,9 @@ const setupScheduler = async () => {
         return;
     }
 
-    cron.schedule(schedule, async () => {
+    const schedule = util.minutesToCronSchedule(interval);
+
+    scheduledTask = cron.schedule(schedule, async () => {
         try {
             console.log('running scheduled task to fetch levels every ' + interval + ' minutes');
             const tanks = await tankController.findAll();
@@ -52,4 +55,18 @@ const setupScheduler = async () => {
     });
 }
 
+const cancelScheduler = () => {
+    if (scheduledTask) {
+        scheduledTask.stop();
+        console.log('Scheduler has been cancelled');
+    } else {
+        console.log('No scheduler to cancel');
+    }
+}
+
 setupScheduler();
+
+module.exports = {
+    setupScheduler,
+    cancelScheduler
+};
