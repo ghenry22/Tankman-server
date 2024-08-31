@@ -37,7 +37,7 @@ exports.updateSetting = async (name, value) => {
 
 exports.getSchedulerEnabled = async () => {
     const setting = await this.findOne('schedulerEnabled');
-    if ( setting === 'true' ) {
+    if ( setting.value === 'true' ) {
         return true;
     }
     return false;
@@ -45,7 +45,7 @@ exports.getSchedulerEnabled = async () => {
 
 exports.getSchedulerInterval = async () => {
     const setting = await this.findOne('schedulerInterval');
-    return setting ? parseInt(setting.value) : 0;
+    return setting.value ? parseInt(setting.value) : 0;
 }
 
 exports.setSchedulerEnabled = async (enabled) => {

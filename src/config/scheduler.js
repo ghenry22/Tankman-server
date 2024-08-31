@@ -27,7 +27,7 @@ setupScheduler = async () => {
     console.log('Scheduler enabled:', isEnabled);
     console.log('Scheduler interval:', interval);
 
-    if (isEnabled === 'false') {
+    if (!isEnabled) {
         console.log('Scheduler is disabled');
         return;
     }
