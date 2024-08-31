@@ -7,24 +7,9 @@ router.get('/', async (req, res) => {
     res.json(settings);
 });
 
-router.get('/:name', async (req, res) => {
-    const setting = await settingController.findOne(req.params.name);
-    res.json(setting);
-});
-
 router.post('/', async (req, res) => {
     const setting = await settingController.createSetting(req.body.name, req.body.value);
     res.json(setting);
-});
-
-router.put('/:name', async (req, res) => {
-    const setting = await settingController.findOne(req.params.name);
-    if (setting) {
-        await setting.update(req.body);
-        res.json(setting);
-    } else {
-        res.status(404).json({ message: 'Setting not found' });
-    }
 });
 
 router.delete('/:name', async (req, res) => {
