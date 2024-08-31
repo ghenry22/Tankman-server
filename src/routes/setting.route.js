@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const settingController = require('../controllers/setting.controller');
-const scheduler = require('..config/scheduler');
+const scheduler = require('../config/scheduler');
 
 router.get('/', async (req, res) => {
     const settings = await settingController.findAll();
