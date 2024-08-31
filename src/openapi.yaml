@@ -259,42 +259,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/SettingResponse'
   /settings/{name}:
-    get:
-      summary: Get a setting by name
-      parameters:
-        - in: path
-          name: name
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The setting with the specified name
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SettingResponse'
-    put:
-      summary: Update a setting by name
-      parameters:
-        - in: path
-          name: name
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SettingRequest'
-      responses:
-        '200':
-          description: The updated setting
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SettingResponse'
     delete:
       summary: Delete a setting by name
       parameters:
