@@ -324,7 +324,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  enabled:
+                  value:
                     type: boolean
     put:
       summary: Set scheduler enabled status
@@ -335,7 +335,7 @@ paths:
             schema:
               type: object
               properties:
-                enabled:
+                value:
                   type: boolean
       responses:
         '200':
@@ -358,7 +358,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  interval:
+                  value:
                     type: integer
     put:
       summary: Set scheduler interval
@@ -369,7 +369,7 @@ paths:
             schema:
               type: object
               properties:
-                interval:
+                value:
                   type: integer
       responses:
         '200':

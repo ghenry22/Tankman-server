@@ -43,7 +43,7 @@ router.get('/schedulerEnabled', async (req, res) => {
 });
 
 router.put('/schedulerEnabled', async (req, res) => {
-    await settingController.setSchedulerEnabled(req.body.enabled);
+    await settingController.setSchedulerEnabled(req.body.value);
     res.json({ message: 'Setting updated' });
 });
 
@@ -53,7 +53,7 @@ router.get('/schedulerInterval', async (req, res) => {
 });
 
 router.put('/schedulerInterval', async (req, res) => {
-    await settingController.setSchedulerInterval(req.body.interval);
+    await settingController.setSchedulerInterval(req.body.value);
     res.json({ message: 'Setting updated' });
 });
 
