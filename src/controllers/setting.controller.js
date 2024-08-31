@@ -52,11 +52,13 @@ exports.setSchedulerEnabled = async (enabled) => {
     await this.updateSetting('schedulerEnabled', enabled.toString());
     await scheduler.cancelScheduler();
     await scheduler.setupScheduler();
+    return;
 }
 
 exports.setSchedulerInterval = async (intervalMins) => {
     await this.updateSetting('schedulerInterval', intervalMins.toString());
     await scheduler.cancelScheduler();
     await scheduler.setupScheduler();
+    return;
 }
 

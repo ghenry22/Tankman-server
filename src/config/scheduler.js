@@ -63,12 +63,14 @@ setupScheduler = async () => {
     });
 }
 
-cancelScheduler = () => {
+cancelScheduler = async () => {
     if (scheduledTask) {
         scheduledTask.stop();
         console.log('Scheduler has been cancelled');
+        return
     } else {
         console.log('No scheduler to cancel');
+        return;
     }
 }
 
