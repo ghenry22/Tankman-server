@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const settingController = require('../controllers/setting.controller');
+const scheduler = require('..config/scheduler');
 
 router.get('/', async (req, res) => {
     const settings = await settingController.findAll();
@@ -29,6 +30,7 @@ router.get('/schedulerEnabled', async (req, res) => {
 
 router.put('/schedulerEnabled', async (req, res) => {
     await settingController.setSchedulerEnabled(req.body.value);
+    await scheduler.setupScheduler();
     res.json({ message: 'Setting updated' });
 });
 
@@ -39,6 +41,7 @@ router.get('/schedulerInterval', async (req, res) => {
 
 router.put('/schedulerInterval', async (req, res) => {
     await settingController.setSchedulerInterval(req.body.value);
+    await scheduler.setupScheduler();
     res.json({ message: 'Setting updated' });
 });
 
